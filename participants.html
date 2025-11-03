@@ -2,18 +2,70 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Danh sách tham gia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh sách tham gia | Anh Trai Say Hi 2025</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main>
-    <h1>📋 Danh sách người đăng ký</h1>
-    <table id="listTable">
-      <thead><tr><th>STT</th><th>Họ tên</th><th>Email</th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <a href="index.html" class="btn">🏠 Trang chủ</a>
+  <header class="register-header">
+    <div class="container">
+      <h1>📋 Danh sách người tham gia</h1>
+      <p class="subtitle">Danh sách cập nhật tự động từ form đăng ký sự kiện 💖</p>
+    </div>
+  </header>
+
+  <main class="register-section">
+    <div class="register-card">
+      <table id="listTable" class="participant-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>Email</th>
+            <th>Giới tính</th>
+            <th>Lời nhắn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+        </tbody>
+      </table>
+
+      <a href="index.html" class="btn-register back-btn">🏠 Quay lại Trang chủ</a>
+    </div>
   </main>
+
+  <footer class="register-footer">
+    <p>© 2025 - Nhóm 1 | CĐ Duy Tân | <span>Scrum Mini Project</span></p>
+  </footer>
+
+  <script>
+    // Giả lập dữ liệu — bạn có thể thay bằng dữ liệu thực từ LocalStorage
+    const participants = JSON.parse(localStorage.getItem("participants") || "[]");
+
+    const tbody = document.querySelector("#listTable tbody");
+    if (participants.length === 0) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 5;
+      cell.textContent = "Chưa có người đăng ký nào 💌";
+      cell.style.textAlign = "center";
+      row.appendChild(cell);
+      tbody.appendChild(row);
+    } else {
+      participants.forEach((p, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${p.name}</td>
+          <td>${p.email}</td>
+          <td>${p.gender}</td>
+          <td>${p.message || ""}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,23 +1,97 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Đăng ký tham gia</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng ký tham gia sự kiện</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main>
-    <h2>Form đăng ký tham gia sự kiện</h2>
-    <form id="registerForm">
-      <label>Họ và tên:</label><br>
-      <input type="text" id="name" placeholder="Nhập họ và tên" required><br>
-      <label>Email:</label><br>
-      <input type="email" id="email" placeholder="Nhập email" required><br>
-      <button type="submit" class="btn">Gửi đăng ký</button>
-    </form>
-    <p id="error" class="error"></p>
-    <footer>© Nhóm 1 – Scrum Mini Project</footer>
+  <header class="register-header">
+    <div class="container">
+      <h1>🎉 Đăng ký tham gia sự kiện</h1>
+      <p class="subtitle">Anh Trai Say Hi 2025 – Hành trình kết nối và bứt phá!</p>
+    </div>
+  </header>
+
+  <main class="register-section">
+    <div class="register-card">
+      <h2>Thông tin đăng ký</h2>
+      <p>Hãy điền đầy đủ thông tin để tham gia sự kiện cùng chúng mình nhé 💖</p>
+
+      <form id="registerForm" class="form">
+        <div class="form-group">
+          <label for="name">👤 Họ và tên</label>
+          <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">📧 Email</label>
+          <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">⚧ Giới tính</label>
+          <select id="gender" name="gender" required>
+            <option value="">-- Chọn giới tính --</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">💬 Lời nhắn đến chương trình (tuỳ chọn)</label>
+          <textarea id="message" name="message" rows="3" placeholder="Viết vài lời gửi gắm tới chương trình..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-register">✨ Gửi đăng ký ngay</button>
+        <p id="success" class="success"></p>
+        <p id="error" class="error"></p>
+      </form>
+    </div>
   </main>
+
+  <footer class="register-footer">
+    <p>© 2025 - Nhóm 1 | CĐ Duy Tân | <span>Scrum Mini Project</span></p>
+  </footer>
+
+  <!-- ✅ SCRIPT MỚI: lưu thông tin đăng ký vào LocalStorage -->
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const gender = document.getElementById('gender').value;
+      const message = document.getElementById('message').value.trim();
+
+      if(!name || !email || !gender){
+        document.getElementById('error').innerText = "⚠️ Vui lòng nhập đầy đủ thông tin!";
+        document.getElementById('success').innerText = "";
+        return;
+      }
+
+      // Lấy danh sách người tham gia từ LocalStorage (nếu có)
+      const participants = JSON.parse(localStorage.getItem("participants") || "[]");
+
+      // Thêm người mới vào danh sách
+      participants.push({ name, email, gender, message });
+
+      // Lưu lại vào LocalStorage
+      localStorage.setItem("participants", JSON.stringify(participants));
+
+      // Hiển thị thông báo thành công
+      document.getElementById('error').innerText = "";
+      document.getElementById('success').innerText = "✅ Đăng ký thành công! Dữ liệu đã được lưu 💕";
+
+      // Xóa nội dung form sau khi gửi
+      document.getElementById('registerForm').reset();
+
+      // (Tùy chọn) chuyển hướng sang trang danh sách sau 2 giây
+      // setTimeout(() => { window.location.href = "participants.html"; }, 2000);
+    });
+  </script>
 </body>
 </html>
